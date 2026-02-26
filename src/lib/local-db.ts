@@ -55,7 +55,10 @@ type LocalDb = {
   task_instances: TaskInstance[];
 };
 
-const DB_PATH = path.join(process.cwd(), "data", "checklist.json");
+const SEED_PATH = path.join(process.cwd(), "data", "checklist.json");
+const DB_PATH =
+  process.env.LOCAL_DB_PATH ||
+  (process.env.VERCEL ? "/tmp/checklist.json" : path.join(process.cwd(), "data", "checklist.json"));
 const CURRENT_SCHEMA_VERSION = 2;
 
 const defaultTemplates: Omit<TaskTemplate, "id" | "created_at">[] = [
@@ -402,7 +405,15 @@ async function ensureDb() {
     const normalized = normalizeDb(parsed);
     await writeFile(DB_PATH, JSON.stringify(normalized, null, 2), "utf8");
   } catch {
-    const initial = instantiateDefaults(newId());
+    let initial: LocalDb;
+
+    try {
+      const seedRaw = await readFile(SEED_PATH, "utf8");
+      initial = normalizeDb(JSON.parse(seedRaw) as LocalDb);
+    } catch {
+      initial = instantiateDefaults(newId());
+    }
+
     await writeFile(DB_PATH, JSON.stringify(initial, null, 2), "utf8");
   }
 }
