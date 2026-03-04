@@ -321,6 +321,52 @@
       "active": true,
       "id": "bee3270f-64e3-47d5-b793-fdd7269962c5",
       "created_at": "2026-02-26T17:34:51.993Z"
+    },
+    {
+      "title": "[FOH] Opening Line Setup + Quality Check",
+      "category": "Operations",
+      "description": "Opening FOH quality walk-through before service. Keep standards high and flag issues early.",
+      "subtasks": [
+        "Cold bases check: spinach/romaine/kale fresh, dry, and correctly prepped.",
+        "Grains and hot stews check: texture, color, and no crusting/dryness.",
+        "Front-line ingredients check: freshness, color, cut size, and no excess liquid.",
+        "Cold premiums check: texture, color, and proper mix/portion.",
+        "Dressings check: consistency, color, and all pots filled.",
+        "Crunches check: crisp texture, no staleness, and fully stocked.",
+        "Hot premiums check: cooked correctly, moist, and safely held.",
+        "Packing station check: scales in place and portioning guide available."
+      ],
+      "scheduled_time": "10:45",
+      "recurrence": {
+        "type": "daily"
+      },
+      "tolerance_minutes": 10,
+      "active": true,
+      "id": "48e35df2-20ea-4347-96fb-22064f6333a8",
+      "created_at": "2026-03-04T10:22:16.470Z"
+    },
+    {
+      "title": "[FOH] Guide to Opening",
+      "category": "Operations",
+      "description": "This checklist is designed to help the daily FOH opening team member walk through the opening in a timely and organized fashion.",
+      "subtasks": [
+        "Open line setup complete: hot food plate on, fridges on, bain-marie filled, grey bus buckets set.",
+        "Cold backups reviewed and refilled with FIFO; waste from previous day communicated.",
+        "Technology ready: tablets charged, Lightspeed/card readers tested, printers working, menu/snooze checked.",
+        "Trackers and tools ready: waste sheets and delivery/hot food trackers printed and positioned.",
+        "Packing station fully stocked: cutlery, bowls, bags, side pots/lids, staples, and customer cards.",
+        "Customer area ready: cutlery/cups out, signage clean, surfaces sanitized, snacks organized.",
+        "Drinks fridges organized and fully replenished from backup stock.",
+        "Final pre-lunch checks complete: music level, doors/signs, visual readiness, and awnings if applicable."
+      ],
+      "scheduled_time": "10:45",
+      "recurrence": {
+        "type": "daily"
+      },
+      "tolerance_minutes": 10,
+      "active": true,
+      "id": "f0bd58ce-d879-4bee-93e4-e4ff7ebf27a5",
+      "created_at": "2026-03-04T10:22:16.470Z"
     }
   ],
   "task_instances": [
