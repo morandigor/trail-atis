@@ -30,7 +30,10 @@
       "title": "Daily time sheets",
       "category": "Admin",
       "description": null,
-      "subtasks": [],
+      "subtasks": [
+        "All Staff shift hours checked",
+        "Timesheets approved"
+      ],
       "scheduled_time": "09:30",
       "recurrence": {
         "type": "weekly",
@@ -65,7 +68,10 @@
       "title": "Salad spinner cleaning",
       "category": "Cleaning",
       "description": null,
-      "subtasks": [],
+      "subtasks": [
+        "No debris present",
+        "Machinery fully cleaned"
+      ],
       "scheduled_time": "20:00",
       "recurrence": {
         "type": "daily"
@@ -96,7 +102,10 @@
       "title": "Pump Cleaning",
       "category": "Maintenance",
       "description": null,
-      "subtasks": [],
+      "subtasks": [
+        "Visual check - no solid residue in the tank",
+        "Visual check - floater is free from blockages"
+      ],
       "scheduled_time": "11:00",
       "recurrence": {
         "type": "daily"
@@ -110,7 +119,12 @@
       "title": "Cook line daily clean morning",
       "category": "Maintenance",
       "description": null,
-      "subtasks": [],
+      "subtasks": [
+        "Oven steam program checked",
+        "Gaskets not damaged",
+        "Clean canopy + drawer",
+        "No leaks or cracks"
+      ],
       "scheduled_time": "09:00",
       "recurrence": {
         "type": "daily"
@@ -222,7 +236,15 @@
       "title": "Protein Checks",
       "category": "Operations",
       "description": null,
-      "subtasks": [],
+      "subtasks": [
+        "Blackened chicken - mix through the fat underneath to ensure it all looks moist",
+        "Herb Grilled Chicken - Chicken should be evenly-sliced, moist, slightly charred",
+        "Steak - well-browned on the outside and pink and juicy in the middle of every slice",
+        "Salmon - golden brown in parts and still soft and moist in the middle",
+        "Tofu - dressed in the tofu marinade, golden brown, be firm and have some crisp edges but not be chewy or dry",
+        "Miso Ginger Sweet Potato Wedges - Charred not mushy",
+        "Umami Mushrooms - Charred, Chestnuts + Portobello mix present, well crumbled"
+      ],
       "scheduled_time": "11:00",
       "recurrence": {
         "type": "daily"
@@ -236,7 +258,9 @@
       "title": "Daily Team briefing",
       "category": "People",
       "description": null,
-      "subtasks": [],
+      "subtasks": [
+        "Team briefing held before opening"
+      ],
       "scheduled_time": "11:00",
       "recurrence": {
         "type": "daily"
@@ -264,24 +288,15 @@
       "created_at": "2026-02-26T17:34:51.993Z"
     },
     {
-      "title": "Invoices all accepted with correct dates",
-      "category": "Stock Count",
-      "description": null,
-      "subtasks": [],
-      "scheduled_time": "16:00",
-      "recurrence": {
-        "type": "daily"
-      },
-      "tolerance_minutes": 10,
-      "active": true,
-      "id": "67263ede-1a22-4480-9d4e-896a83999337",
-      "created_at": "2026-02-26T17:34:51.993Z"
-    },
-    {
       "title": "Daily line count proteins",
       "category": "Stock Count",
       "description": null,
-      "subtasks": [],
+      "subtasks": [
+        "Both Chickens Counted",
+        "Steak Counted",
+        "Tofu Counted",
+        "Salmon Counted"
+      ],
       "scheduled_time": "20:00",
       "recurrence": {
         "type": "daily"
@@ -312,7 +327,9 @@
       "title": "Checking snooze products for online channels",
       "category": "Technology",
       "description": null,
-      "subtasks": [],
+      "subtasks": [
+        "Sense-check before dinner service that all items snoozed are genuinely out of stock"
+      ],
       "scheduled_time": "11:00",
       "recurrence": {
         "type": "daily"
