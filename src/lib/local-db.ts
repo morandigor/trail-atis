@@ -393,7 +393,9 @@ function normalizeDb(db: LocalDb): LocalDb {
 
   const byTemplateId = new Map(normalized.task_templates.map((template) => [template.id, template]));
 
-  normalized.task_instances = normalized.task_instances.map((instance) => {
+  normalized.task_instances = normalized.task_instances
+    .filter((instance) => byTemplateId.has(instance.template_id))
+    .map((instance) => {
     const template = byTemplateId.get(instance.template_id);
     const subtaskLength = template?.subtasks.length ?? 0;
     const base = Array.from({ length: subtaskLength }, (_, index) =>
@@ -403,7 +405,7 @@ function normalizeDb(db: LocalDb): LocalDb {
       ...instance,
       subtasks_state: base,
     };
-  });
+    });
 
   normalized.schema_version = CURRENT_SCHEMA_VERSION;
   return normalized;

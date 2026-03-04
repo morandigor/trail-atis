@@ -29,6 +29,10 @@ export default async function TodayChecklistPage({
   const requestedDay = (params.day ?? getDefaultDayCode()) as WeekdayCode;
   const day = WEEKDAY_CODES.includes(requestedDay) ? requestedDay : getDefaultDayCode();
   const tasks = await listTasksForWeekday(day);
+  const visibleTasks = tasks.filter((task) => {
+    const title = task.task_templates?.title?.trim();
+    return Boolean(task.task_templates && title);
+  });
 
   return (
     <main className="space-y-5">
@@ -57,13 +61,13 @@ export default async function TodayChecklistPage({
       </div>
 
       <section className="space-y-3">
-        {tasks.length === 0 ? (
+        {visibleTasks.length === 0 ? (
           <div className="card rounded-2xl p-6 text-sm text-[--color-navy]/70">
             No tasks found for {weekDayLabels[day]}.
           </div>
         ) : null}
 
-        {tasks.map((task) => (
+        {visibleTasks.map((task) => (
           <article key={task.id} className="card rounded-2xl p-4">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
