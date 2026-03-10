@@ -13,7 +13,9 @@ type TaskSubtasksProps = {
 export function TaskSubtasks({ taskId, status, subtasks, initialState, returnTo }: TaskSubtasksProps) {
   const [state, setState] = useState<boolean[]>(initialState);
   const [syncingIndex, setSyncingIndex] = useState<number | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const canEdit = status === "pending" || status === "missed";
+  const isSyncing = syncingIndex !== null;
 
   const allDone = useMemo(() => state.every(Boolean), [state]);
 
@@ -41,27 +43,33 @@ export function TaskSubtasks({ taskId, status, subtasks, initialState, returnTo 
 
   return (
     <>
-      <form action={`/api/tasks/${taskId}/complete`} method="post" className="mt-4 grid gap-2 md:grid-cols-3">
+      <form
+        action={`/api/tasks/${taskId}/complete`}
+        method="post"
+        onSubmit={() => setIsSubmitting(true)}
+        className="mt-4 grid gap-2 md:grid-cols-3"
+      >
         <input
           type="text"
           name="completed_by"
           placeholder="Team member name"
           required
-          disabled={!canEdit}
+          disabled={!canEdit || isSubmitting}
           className="rounded-lg border border-[--color-navy]/25 bg-white px-3 py-2 text-sm outline-none focus:border-[--color-navy] disabled:opacity-50"
         />
         <input
           type="text"
           name="notes"
           placeholder="Optional notes"
-          disabled={!canEdit}
+          disabled={!canEdit || isSubmitting}
           className="rounded-lg border border-[--color-navy]/25 bg-white px-3 py-2 text-sm outline-none focus:border-[--color-navy] disabled:opacity-50"
         />
         <div className="flex gap-2">
           <input type="hidden" name="return_to" value={returnTo} />
+          <input type="hidden" name="subtasks_state" value={JSON.stringify(state)} />
           <button
             type="submit"
-            disabled={!canEdit || !allDone}
+            disabled={!canEdit || !allDone || isSyncing || isSubmitting}
             className="rounded-lg border border-[--color-navy] bg-[--color-acid] px-4 py-2 text-sm font-bold text-[--color-navy] transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-40"
           >
             Mark as complete
@@ -71,6 +79,8 @@ export function TaskSubtasks({ taskId, status, subtasks, initialState, returnTo 
 
       {!canEdit ? (
         <p className="mt-2 text-xs text-[--color-navy]/65">This task is already completed.</p>
+      ) : isSyncing ? (
+        <p className="mt-2 text-xs text-[--color-navy]/65">Saving subtasks...</p>
       ) : !allDone ? (
         <p className="mt-2 text-xs text-[--color-navy]/65">Check all subtasks to enable submit.</p>
       ) : null}
@@ -84,7 +94,7 @@ export function TaskSubtasks({ taskId, status, subtasks, initialState, returnTo 
                 <input
                   type="checkbox"
                   checked={Boolean(state[index])}
-                  disabled={!canEdit || syncingIndex === index}
+                  disabled={!canEdit || isSubmitting || syncingIndex === index}
                   onChange={(event) => onToggle(index, event.target.checked)}
                   className="mt-0.5 h-4 w-4 rounded border-[--color-navy]/40"
                 />

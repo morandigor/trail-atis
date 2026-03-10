@@ -563,12 +563,30 @@ export async function toggleTaskSubtask(id: string, index: number, checked: bool
   return true;
 }
 
-export async function completeTask(id: string, notes: string | null, completedBy: string) {
+function normalizeSubmittedSubtasks(
+  submittedState: boolean[] | null | undefined,
+  currentState: boolean[],
+) {
+  if (!Array.isArray(submittedState) || submittedState.length !== currentState.length) {
+    return currentState;
+  }
+
+  return submittedState.map((value) => Boolean(value));
+}
+
+export async function completeTask(
+  id: string,
+  notes: string | null,
+  completedBy: string,
+  submittedState?: boolean[] | null,
+) {
   const db = await readDb();
   const instance = db.task_instances.find((item) => item.id === id);
   if (!instance || (instance.status !== "pending" && instance.status !== "missed")) {
     return { ok: false, reason: "not_open" as const };
   }
+
+  instance.subtasks_state = normalizeSubmittedSubtasks(submittedState, instance.subtasks_state);
 
   if (instance.subtasks_state.some((value) => !value)) {
     return { ok: false, reason: "subtasks_incomplete" as const };
