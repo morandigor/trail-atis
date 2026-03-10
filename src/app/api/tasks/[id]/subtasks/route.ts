@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
 import { toggleTaskSubtask } from "@/lib/local-db";
@@ -24,5 +25,8 @@ export async function POST(
     return NextResponse.json({ error: "Unable to update subtask" }, { status: 400 });
   }
 
+  revalidatePath("/checklist/today");
+  revalidatePath("/checklist/week");
+  revalidatePath("/reports");
   return NextResponse.json({ ok: true });
 }

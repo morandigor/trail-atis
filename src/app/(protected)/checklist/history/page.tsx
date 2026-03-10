@@ -3,6 +3,8 @@ import { formatShortDate, formatTime } from "@/lib/time";
 
 type HistoryStatus = "all" | "completed_on_time" | "completed_late";
 
+export const dynamic = "force-dynamic";
+
 export default async function SubmissionHistoryPage({
   searchParams,
 }: {

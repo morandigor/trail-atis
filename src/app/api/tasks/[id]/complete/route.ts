@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
 import { completeTask } from "@/lib/local-db";
@@ -31,5 +32,9 @@ export async function POST(
   }
 
   await completeTask(id, notes || null, completedBy, subtasksState);
+  revalidatePath("/checklist/today");
+  revalidatePath("/checklist/week");
+  revalidatePath("/checklist/history");
+  revalidatePath("/reports");
   return NextResponse.redirect(new URL(returnTo, request.url), 303);
 }

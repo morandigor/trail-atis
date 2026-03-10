@@ -2,6 +2,8 @@ import { reportMetrics } from "@/lib/local-db";
 
 type PeriodType = "today" | "week" | "range";
 
+export const dynamic = "force-dynamic";
+
 export default async function ReportsPage({
   searchParams,
 }: {

@@ -3,6 +3,8 @@ import { TaskSubtasks } from "@/components/task-subtasks";
 import { listTasksForWeekday } from "@/lib/local-db";
 import { formatTime, WEEKDAY_CODES, type WeekdayCode } from "@/lib/time";
 
+export const dynamic = "force-dynamic";
+
 const weekDayOrder: WeekdayCode[] = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
 
 const weekDayLabels: Record<WeekdayCode, string> = {

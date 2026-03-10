@@ -1,6 +1,8 @@
 import { listWeekSummary } from "@/lib/local-db";
 import { formatShortDate } from "@/lib/time";
 
+export const dynamic = "force-dynamic";
+
 export default async function WeeklyChecklistPage() {
   const days = await listWeekSummary();
 
