@@ -21,6 +21,16 @@ function getDefaultDayCode(): WeekdayCode {
   return WEEKDAY_CODES[day];
 }
 
+function getDeadlineAt(scheduledAt: string, toleranceMinutes: number | undefined) {
+  if (typeof toleranceMinutes !== "number") {
+    return null;
+  }
+
+  const deadline = new Date(scheduledAt);
+  deadline.setMinutes(deadline.getMinutes() + toleranceMinutes);
+  return deadline.toISOString();
+}
+
 export default async function TodayChecklistPage({
   searchParams,
 }: {
@@ -75,6 +85,7 @@ export default async function TodayChecklistPage({
             title={task.task_templates?.title ?? "Untitled task"}
             category={task.task_templates?.category ?? "Uncategorized"}
             scheduledAt={task.scheduled_at}
+            deadlineAt={getDeadlineAt(task.scheduled_at, task.task_templates?.tolerance_minutes)}
             status={task.status}
             subtasks={task.task_templates?.subtasks ?? []}
             initialState={task.subtasks_state}

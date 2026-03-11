@@ -12,6 +12,7 @@ type TaskCardProps = {
   title: string;
   category: string;
   scheduledAt: string;
+  deadlineAt: string | null;
   status: TaskStatus;
   subtasks: string[];
   initialState: boolean[];
@@ -57,6 +58,7 @@ export function TaskCard({
   title,
   category,
   scheduledAt,
+  deadlineAt,
   status,
   subtasks,
   initialState,
@@ -86,7 +88,10 @@ export function TaskCard({
             {category}
           </p>
           <h3 className="text-lg font-semibold text-[--color-navy]">{title}</h3>
-          <p className="text-sm text-[--color-navy]/70">Scheduled at {formatTime(scheduledAt)}</p>
+          <p className="text-sm text-[--color-navy]/70">
+            Scheduled at {formatTime(scheduledAt)}
+            {deadlineAt ? ` • Deadline at ${formatTime(deadlineAt)}` : ""}
+          </p>
         </div>
         <StatusPill status={effectiveStatus} />
       </div>
