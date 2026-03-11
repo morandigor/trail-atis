@@ -789,3 +789,15 @@ export async function deleteTemplate(id: string) {
   await writeDb(db);
   return before !== db.task_templates.length;
 }
+
+export async function updateTemplateTolerance(id: string, toleranceMinutes: number) {
+  const db = await readDb();
+  const template = db.task_templates.find((item) => item.id === id);
+  if (!template) {
+    return false;
+  }
+
+  template.tolerance_minutes = toleranceMinutes;
+  await writeDb(db);
+  return true;
+}

@@ -5,6 +5,7 @@ const links = [
   { href: "/checklist/week", label: "Weekly View" },
   { href: "/checklist/history", label: "Submission History" },
   { href: "/reports", label: "Reports" },
+  { href: "/admin/templates", label: "Template Settings" },
 ];
 
 export function AppNav() {
