@@ -20,6 +20,7 @@ function hasBlobStorage() {
 async function readBlobText() {
   const result = await get(BLOB_PATHNAME, {
     access: "private",
+    useCache: false,
   });
 
   if (!result || result.statusCode !== 200) {
