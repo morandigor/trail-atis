@@ -28,13 +28,28 @@ export async function POST(
   const subtasksState = parseSubtasksState(formData.get("subtasks_state"));
 
   if (!completedBy) {
+    if (request.headers.get("x-requested-with") === "fetch") {
+      return NextResponse.json({ error: "Missing team member name" }, { status: 400 });
+    }
     return NextResponse.redirect(new URL(returnTo, request.url), 303);
   }
 
-  await completeTask(id, notes || null, completedBy, subtasksState);
-  revalidatePath("/checklist/today");
-  revalidatePath("/checklist/week");
-  revalidatePath("/checklist/history");
-  revalidatePath("/reports");
+  const result = await completeTask(id, notes || null, completedBy, subtasksState);
+
+  if (result.ok) {
+    revalidatePath("/checklist/today");
+    revalidatePath("/checklist/week");
+    revalidatePath("/checklist/history");
+    revalidatePath("/reports");
+  }
+
+  if (request.headers.get("x-requested-with") === "fetch") {
+    if (!result.ok) {
+      return NextResponse.json({ error: result.reason }, { status: 400 });
+    }
+
+    return NextResponse.json(result);
+  }
+
   return NextResponse.redirect(new URL(returnTo, request.url), 303);
 }

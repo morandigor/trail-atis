@@ -609,7 +609,7 @@ export async function completeTask(
   }
 
   await writeDb(db);
-  return { ok: true as const };
+  return { ok: true as const, status: instance.status };
 }
 
 export async function listWeekSummary() {

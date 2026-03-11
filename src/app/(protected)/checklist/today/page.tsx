@@ -1,7 +1,6 @@
-import { StatusPill } from "@/components/status-pill";
-import { TaskSubtasks } from "@/components/task-subtasks";
+import { TaskCard } from "@/components/task-card";
 import { listTasksForWeekday } from "@/lib/local-db";
-import { formatTime, WEEKDAY_CODES, type WeekdayCode } from "@/lib/time";
+import { WEEKDAY_CODES, type WeekdayCode } from "@/lib/time";
 
 export const dynamic = "force-dynamic";
 
@@ -70,40 +69,19 @@ export default async function TodayChecklistPage({
         ) : null}
 
         {visibleTasks.map((task) => (
-          <article key={task.id} className="card rounded-2xl p-4">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[--color-navy]/60">
-                  {task.task_templates?.category ?? "Uncategorized"}
-                </p>
-                <h3 className="text-lg font-semibold text-[--color-navy]">
-                  {task.task_templates?.title ?? "Untitled task"}
-                </h3>
-                <p className="text-sm text-[--color-navy]/70">
-                  Scheduled at {formatTime(task.scheduled_at)}
-                </p>
-              </div>
-              <StatusPill status={task.status} />
-            </div>
-
-            <TaskSubtasks
-              taskId={task.id}
-              status={task.status}
-              subtasks={task.task_templates?.subtasks ?? []}
-              initialState={task.subtasks_state}
-              returnTo={`/checklist/today?day=${day}`}
-            />
-
-            {task.completed_by ? (
-              <p className="mt-3 text-sm text-[--color-navy]/70">Completed by: {task.completed_by}</p>
-            ) : null}
-
-            {task.notes ? (
-              <p className="mt-3 rounded-lg bg-[--color-butter] px-3 py-2 text-sm text-[--color-navy]/80">
-                Note: {task.notes}
-              </p>
-            ) : null}
-          </article>
+          <TaskCard
+            key={task.id}
+            taskId={task.id}
+            title={task.task_templates?.title ?? "Untitled task"}
+            category={task.task_templates?.category ?? "Uncategorized"}
+            scheduledAt={task.scheduled_at}
+            status={task.status}
+            subtasks={task.task_templates?.subtasks ?? []}
+            initialState={task.subtasks_state}
+            returnTo={`/checklist/today?day=${day}`}
+            completedBy={task.completed_by}
+            notes={task.notes}
+          />
         ))}
       </section>
     </main>
