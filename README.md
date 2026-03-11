@@ -61,6 +61,7 @@ Required setup:
 
 1. Create a Vercel Blob store for the project.
 2. Expose `BLOB_READ_WRITE_TOKEN` to the deployment environment.
+3. Copy the values into the Vercel project's Environment Variables settings.
 
 Optional env vars:
 
@@ -69,7 +70,14 @@ Optional env vars:
 - `LOCAL_DB_PATH`
   - Only used for local development fallback
 
+Example env file:
+
+```bash
+cp .env.example .env.local
+```
+
 Behavior:
 
 - Local development without `BLOB_READ_WRITE_TOKEN`: reads and writes `data/checklist.json`
 - Vercel with `BLOB_READ_WRITE_TOKEN`: reads and writes the checklist database in Blob storage
+- Vercel without `BLOB_READ_WRITE_TOKEN`: falls back to `/tmp/checklist.json`, which works but is not persistent

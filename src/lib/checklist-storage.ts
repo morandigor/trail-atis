@@ -4,7 +4,9 @@ import path from "node:path";
 import { get, put } from "@vercel/blob";
 
 const SEED_PATH = path.join(process.cwd(), "data", "checklist.json");
-const LOCAL_DB_PATH = process.env.LOCAL_DB_PATH || path.join(process.cwd(), "data", "checklist.json");
+const LOCAL_DB_PATH =
+  process.env.LOCAL_DB_PATH ||
+  (process.env.VERCEL ? "/tmp/checklist.json" : path.join(process.cwd(), "data", "checklist.json"));
 const BLOB_PATHNAME = process.env.CHECKLIST_BLOB_PATHNAME || "checklist/db.json";
 
 async function readSeedFile() {
