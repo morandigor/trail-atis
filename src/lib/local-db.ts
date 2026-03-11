@@ -1,7 +1,9 @@
-import { mkdir, readFile, writeFile } from "node:fs/promises";
-import path from "node:path";
-
 import { WEEKDAY_CODES, type WeekdayCode, toUtcTimestamp } from "@/lib/time";
+import {
+  ensureChecklistStorage,
+  readChecklistStorage,
+  writeChecklistStorage,
+} from "@/lib/checklist-storage";
 
 type Status = "pending" | "completed_on_time" | "completed_late" | "missed";
 
@@ -55,10 +57,6 @@ type LocalDb = {
   task_instances: TaskInstance[];
 };
 
-const SEED_PATH = path.join(process.cwd(), "data", "checklist.json");
-const DB_PATH =
-  process.env.LOCAL_DB_PATH ||
-  (process.env.VERCEL ? "/tmp/checklist.json" : path.join(process.cwd(), "data", "checklist.json"));
 const CURRENT_SCHEMA_VERSION = 2;
 
 const defaultTemplates: Omit<TaskTemplate, "id" | "created_at">[] = [
@@ -412,35 +410,27 @@ function normalizeDb(db: LocalDb): LocalDb {
 }
 
 async function ensureDb() {
-  await mkdir(path.dirname(DB_PATH), { recursive: true });
+  await ensureChecklistStorage();
 
   try {
-    const raw = await readFile(DB_PATH, "utf8");
+    const raw = await readChecklistStorage();
     const parsed = JSON.parse(raw) as LocalDb;
     const normalized = normalizeDb(parsed);
-    await writeFile(DB_PATH, JSON.stringify(normalized, null, 2), "utf8");
+    await writeChecklistStorage(JSON.stringify(normalized, null, 2));
   } catch {
-    let initial: LocalDb;
-
-    try {
-      const seedRaw = await readFile(SEED_PATH, "utf8");
-      initial = normalizeDb(JSON.parse(seedRaw) as LocalDb);
-    } catch {
-      initial = instantiateDefaults(newId());
-    }
-
-    await writeFile(DB_PATH, JSON.stringify(initial, null, 2), "utf8");
+    const initial = instantiateDefaults(newId());
+    await writeChecklistStorage(JSON.stringify(initial, null, 2));
   }
 }
 
 async function readDb() {
   await ensureDb();
-  const raw = await readFile(DB_PATH, "utf8");
+  const raw = await readChecklistStorage();
   return normalizeDb(JSON.parse(raw) as LocalDb);
 }
 
 async function writeDb(db: LocalDb) {
-  await writeFile(DB_PATH, JSON.stringify(normalizeDb(db), null, 2), "utf8");
+  await writeChecklistStorage(JSON.stringify(normalizeDb(db), null, 2));
 }
 
 export async function generateInstances(days = 14, startOffsetDays = -7) {

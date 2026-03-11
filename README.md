@@ -1,4 +1,4 @@
-# Internal Checklist MVP (Local Mode)
+# Internal Checklist MVP
 
 Operational checklist MVP for one pilot store: **Regent Street**.
 
@@ -6,7 +6,8 @@ Operational checklist MVP for one pilot store: **Regent Street**.
 
 - Next.js (App Router) + TypeScript
 - Tailwind CSS
-- Local JSON persistence (`data/checklist.json`)
+- Local JSON persistence in development (`data/checklist.json`)
+- Vercel Blob persistence in production when `BLOB_READ_WRITE_TOKEN` is available
 
 ## What works
 
@@ -51,3 +52,24 @@ If you do not use pnpm:
 npm install
 npm run dev
 ```
+
+## Deploy on Vercel
+
+This app now supports persistent checklist storage on Vercel through Blob.
+
+Required setup:
+
+1. Create a Vercel Blob store for the project.
+2. Expose `BLOB_READ_WRITE_TOKEN` to the deployment environment.
+
+Optional env vars:
+
+- `CHECKLIST_BLOB_PATHNAME`
+  - Defaults to `checklist/db.json`
+- `LOCAL_DB_PATH`
+  - Only used for local development fallback
+
+Behavior:
+
+- Local development without `BLOB_READ_WRITE_TOKEN`: reads and writes `data/checklist.json`
+- Vercel with `BLOB_READ_WRITE_TOKEN`: reads and writes the checklist database in Blob storage
